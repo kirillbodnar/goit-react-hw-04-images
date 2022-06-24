@@ -12,7 +12,7 @@ export default function Modal({ image, toggleModal }) {
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  }, []);
+  });
 
   const handleKeyPress = e => {
     if (e.code === 'Escape') {
