@@ -1,53 +1,47 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import { ImSearch } from 'react-icons/im';
 import { toast } from 'react-toastify';
 import s from './Searchbar.module.css';
 
-export default class Searchbar extends Component {
-  state = {
-    input: '',
-  };
+export default function Searchbar({ onSubmit }) {
+  const [input, setInput] = useState('');
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
 
-    if (this.state.input.trim() === '') {
+    if (input.trim() === '') {
       toast.error('Введите запрос');
       return;
     }
-    this.props.onSubmit(this.state.input.trim().split(' ').join('+'));
+    onSubmit(input.trim().split(' ').join('+'));
   };
 
-  handleChange = e => {
+  const handleChange = e => {
     const { value } = e.currentTarget;
-    this.setState({
-      input: value,
-    });
+    setInput(value);
   };
 
-  render() {
-    return (
-      <header className={s.Searchbar}>
-        <form onSubmit={this.handleSubmit} className={s.form}>
-          <button type="submit" className={s.button}>
-            <ImSearch />
-            <span className={s.label}>Search</span>
-          </button>
+  return (
+    <header className={s.Searchbar}>
+      <form onSubmit={handleSubmit} className={s.form}>
+        <button type="submit" className={s.button}>
+          <ImSearch />
+          <span className={s.label}>Search</span>
+        </button>
 
-          <input
-            className={s.input}
-            type="text"
-            autoComplete="off"
-            value={this.state.input}
-            autoFocus
-            placeholder="Search images and photos"
-            onChange={this.handleChange}
-          />
-        </form>
-      </header>
-    );
-  }
+        <input
+          className={s.input}
+          type="text"
+          autoComplete="off"
+          value={input}
+          autoFocus
+          placeholder="Search images and photos"
+          onChange={handleChange}
+        />
+      </form>
+    </header>
+  );
 }
 
 Searchbar.propTypes = {

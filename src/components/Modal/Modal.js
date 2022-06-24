@@ -9,16 +9,16 @@ export default function Modal({ image, toggleModal }) {
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
 
+    function handleKeyPress(e) {
+      if (e.code === 'Escape') {
+        toggleModal();
+      }
+    }
+
     return () => {
       window.removeEventListener('keydown', handleKeyPress);
     };
-  });
-
-  const handleKeyPress = e => {
-    if (e.code === 'Escape') {
-      toggleModal();
-    }
-  };
+  }, [toggleModal]);
 
   const handleBackdropClick = e => {
     if (e.target === e.currentTarget) {
